@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adhish Shah | Luxury Hospitality & Enterprise Transformation</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700&family=Cormorant+Garamond:wght=300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <style>
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #121212;
+      --bg-tertiary: #181614;
+
+      --gold-primary: #c8a15a;
+      --gold-secondary: #f0d19d;
+      --gold-dark: #9e7a3f;
+
+      --text-primary: #f5f1ea;
+      --text-secondary: #d8d1c8;
+      --text-muted: #a7a19a;
+      --text-soft: #8e8880;
+
+      --border-soft: rgba(255,255,255,0.06);
+      --border-gold: rgba(200,161,90,0.2);
+
+      --glow-gold-soft: rgba(200,161,90,0.04);
+      --glow-gold-medium: rgba(200,161,90,0.1);
+      --glow-gold-strong: rgba(200,161,90,0.15);
+
+      --glass-bg: rgba(255,255,255,0.02);
+      --glass-border: rgba(255,255,255,0.06);
+
+      --radius-sm: 16px;
+      --radius-md: 24px;
+      --radius-lg: 36px;
+
+      --shadow-luxury: 0 30px 70px rgba(0,0,0,0.55);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    @media (pointer: fine) {
+      body { cursor: none; }
+    }
+
+    .serif {
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    /* Interactive Cursor Structure */
+    .cursor {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--gold-primary);
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 9999;
+      mix-blend-mode: difference;
+      transform: translate(-50%, -50%);
+      display: none;
+    }
+
+    .cursor-ring {
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--border-gold);
+      border-radius: 999px;
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      display: none;
+    }
+
+    /* Visual Polish & Textures */
+    .noise {
+      position: fixed;
+      inset: 0;
+      opacity: 0.025;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='%23ffffff'%3E%3Ccircle cx='10' cy='10' r='1'/%3E%3Ccircle cx='80' cy='50' r='1'/%3E%3Ccircle cx='120' cy='100' r='1'/%3E%3C/g%3E%3C/svg%3E");
+      z-index: 2;
+    }
+
+    .glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--glass-border);
+    }
+
+    .glass-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: var(--radius-lg);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(200,161,90,0.25);
+      box-shadow: var(--shadow-luxury);
+    }
+
+    .gold-gradient {
+      background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-bg {
+      background:
+        radial-gradient(circle at 80% 20%, var(--glow-gold-strong), transparent 45%),
+        radial-gradient(circle at 10% 80%, var(--glow-gold-medium), transparent 45%),
+        linear-gradient(to bottom, var(--bg-primary), #0e0e0e);
+    }
+
+    .section-line {
+      width: 44px;
+      height: 1px;
+      background: var(--gold-primary);
+    }
+
+    .hero-title {
+      font-size: clamp(3.2rem, 7.5vw, 7.2rem);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+    }
+
+    .btn-gold {
+      background: var(--gold-primary);
+      color: #000000;
+      border-radius: 999px;
+      padding: 16px 36px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.72rem;
+      font-weight: 700;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-gold:hover {
+      transform: translateY(-2px);
+      background: #d8b473;
+      box-shadow: 0 12px 35px rgba(200,161,90,0.18);
+    }
+
+    .btn-secondary {
+      border: 1px solid var(--border-soft);
+      color: var(--text-secondary);
+      border-radius: 999px;
+      padding: 16px 32px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.72rem;
+      font-weight: 600;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-secondary:hover {
+      border-color: rgba(200,161,90,0.35);
+      background: rgba(255,255,255,0.02);
+    }
+
+    /* Core Image Dynamic Interactions */
+    .img-frame-container {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .img-frame-container .image-overlay-layer {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0) 100%);
+      opacity: 1;
+      z-index: 2;
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+
+    .img-frame-container img {
+      filter: grayscale(100%) contrast(110%) brightness(0.75);
+      mix-blend-mode: luminosity;
+      opacity: 0.75;
+      transform: scale(1);
+      transition: filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
+                  opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
+                  mix-blend-mode 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .img-frame-container:hover .image-overlay-layer {
+      opacity: 0 !important;
+    }
+
+    .img-frame-container:hover img {
+      filter: grayscale(0%) contrast(100%) brightness(1) !important;
+      mix-blend-mode: normal !important;
+      opacity: 1 !important;
+      transform: scale(1.03);
+    }
+
+    .editorial-container {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .reveal {
+      opacity: 0;
+    }
+
+    .nav-link {
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -6px; left: 0;
+      width: 0; height: 1px;
+      background: linear-gradient(90deg, var(--gold-primary), var(--gold-dark));
+      transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    section {
+      position: relative;
+    }
+    section::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 10%; right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+    }
+  </style>
+</head>
+<body>
+
+<div class="cursor"></div>
+<div class="cursor-ring"></div>
+<div class="noise"></div>
+
+<!-- NAVIGATION HUB -->
+<nav class="fixed top-0 left-0 w-full z-50 backdrop-blur-xl bg-black/40 border-b border-white/5 px-6 md:px-14 py-5 flex items-center justify-between">
+  <div class="text-lg uppercase tracking-[0.3em] font-light">
+    ADHISH<span class="text-[var(--gold-primary)]">.</span>
+  </div>
+
+  <div class="hidden lg:flex gap-10 text-[0.7rem] uppercase tracking-[0.2em] text-[var(--text-muted)]">
+    <a href="#story" class="nav-link hover:text-white">Story</a>
+    <a href="#transformations" class="nav-link hover:text-white">Transformations</a>
+    <a href="#deployments" class="nav-link hover:text-white">Deployments</a>
+    <a href="#experience" class="nav-link hover:text-white">Experience</a>
+  </div>
+
+  <div class="flex items-center gap-4">
+    <a href="#" class="hidden sm:inline-flex items-center gap-2 text-[0.68rem] uppercase tracking-[0.18em] border border-white/10 hover:border-[var(--gold-primary)]/30 px-5 py-3 rounded-full text-[var(--text-secondary)] transition-all">
+      <svg class="w-3.5 h-3.5 text-[var(--gold-primary)]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
+      </svg>
+      Resume
+    </a>
+    <a href="#contact" class="btn-gold !py-3 !px-6 !text-[0.68rem]">Connect</a>
+  </div>
+</nav>
+
+<!-- HERO ZONE -->
+<section class="hero-bg min-h-screen flex items-center px-6 md:px-16 relative overflow-hidden">
+  <div class="max-w-7xl mx-auto w-full grid lg:grid-cols-12 gap-16 items-center pt-32 pb-16">
+
+    <div class="lg:col-span-7 reveal">
+      <div class="flex items-center gap-4 mb-6">
+        <div class="section-line"></div>
+        <span class="uppercase tracking-[0.25em] text-[0.7rem] text-[var(--gold-primary)] font-medium">
+          Executive Brand Platform
+        </span>
+      </div>
+
+      <h1 class="hero-title serif text-[var(--text-primary)]">
+        Luxury Service.<br>
+        <span class="gold-gradient italic">Enterprise Precision.</span>
+      </h1>
+
+      <p class="mt-8 max-w-2xl text-base md:text-lg leading-8 md:leading-9 text-[var(--text-secondary)]">
+        Architect of intelligent hospitality ecosystems. Operating fluently at the intersection of ultra-luxury hotel portfolios, global customer success systems, and complex enterprise-scale SaaS transformation. Over 14 years driving multi-million dollar asset value and high-impact retention frameworks across major global theaters.
+      </p>
+
+      <div class="flex flex-wrap gap-4 mt-10">
+        <a href="#transformations" class="btn-gold">Explore Transformations</a>
+        <a href="#" class="btn-secondary flex items-center gap-2">
+          <svg class="w-3.5 h-3.5 text-[var(--gold-primary)]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
+          </svg>
+          Resume
+        </a>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 pt-10 border-t border-white/5">
+        <div>
+          <div class="text-3xl md:text-4xl serif text-[var(--gold-primary)]">$10M+</div>
+          <div class="uppercase text-[0.65rem] tracking-[0.2em] text-[var(--text-soft)] mt-2">ARR Portfolio</div>
+        </div>
+        <div>
+          <div class="text-3xl md:text-4xl serif text-[var(--gold-primary)]">24+</div>
+          <div class="uppercase text-[0.65rem] tracking-[0.2em] text-[var(--text-soft)] mt-2">Global Initiatives</div>
+        </div>
+        <div>
+          <div class="text-3xl md:text-4xl serif text-[var(--gold-primary)]">95-98%</div>
+          <div class="uppercase text-[0.65rem] tracking-[0.2em] text-[var(--text-soft)] mt-2">Renewal Pacing</div>
+        </div>
+        <div>
+          <div class="text-3xl md:text-4xl serif text-[var(--gold-primary)]">8</div>
+          <div class="uppercase text-[0.65rem] tracking-[0.2em] text-[var(--text-soft)] mt-2">Nations Managed</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN PORTRAIT FRAME -->
+    <div class="lg:col-span-5 reveal">
+      <div class="glass-card p-4 max-w-md mx-auto">
+        <div class="img-frame-container rounded-[28px] aspect-[4/5] bg-[#161412]">
+          <div class="image-overlay-layer"></div>
+          <img src="https://lh3.googleusercontent.com/d/1DrjSCuO0uqOxipnDHHiSaHFQ3CgJMKFm" class="w-full h-full object-cover" alt="Adhish Shah Editorial Portrait">
+
+          <div class="absolute bottom-6 left-6 right-6 glass rounded-2xl p-5 border border-white/5 z-10 pointer-events-none">
+            <div class="uppercase tracking-[0.18em] text-[0.65rem] text-[var(--gold-primary)] mb-1 font-semibold">
+              Executive Profile
+            </div>
+            <div class="text-2xl serif text-white">Adhish Shah</div>
+            <div class="text-[0.72rem] text-[var(--text-muted)] mt-1.5 leading-relaxed">
+              Global Platform Governance & Customer Success Leadership
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- BIOGRAPHY FRAME -->
+<section id="story" class="py-32 bg-[#111111]">
+  <div class="max-w-7xl mx-auto px-6 md:px-16 grid lg:grid-cols-12 gap-16 items-center">
+
+    <div class="lg:col-span-5 reveal order-2 lg:order-1">
+      <div class="editorial-container img-frame-container bg-[#151311]">
+        <div class="image-overlay-layer"></div>
+        <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=1600&auto=format&fit=crop" class="w-full h-[620px] object-cover" alt="Luxury Hospitality Design Matrix">
+      </div>
+    </div>
+
+    <div class="lg:col-span-7 reveal order-1 lg:order-2">
+      <div class="flex items-center gap-4 mb-6">
+        <div class="section-line"></div>
+        <span class="uppercase tracking-[0.22em] text-[0.7rem] text-[var(--gold-primary)]">The Profile Story</span>
+      </div>
+
+      <h2 class="serif text-4xl md:text-5xl lg:text-6xl leading-tight mb-8">
+        Forged in Operational Luxury.<br>
+        <span class="italic gold-gradient">Scaled for Global Platforms.</span>
+      </h2>
+
+      <div class="space-y-6 text-[var(--text-secondary)] text-base md:text-lg leading-8 md:leading-9">
+        <p>
+          Years spent navigating ultra-luxury resort environments built a definitive obsession with system mapping, proactive relationship architecture, and absolute operational detail. That classic hospitality baseline serving elite global standards natively evolved into the blueprint for scaling enterprise technical architecture.
+        </p>
+        <p>
+          From hands-on operational leadership roles at <span class="text-white">The Oberoi Bengaluru</span> and <span class="text-white">ITC Hotels</span> to spearheading complex regional client retention, onboarding systems, and product performance analysis internationally, Adhish balances service elegance with strict financial execution parameters.
+        </p>
+        <p>
+          His strategic framework focuses on engineering high-end invisible structures—where user digital engagement lines function seamlessly under pressure, and retention metrics scale metrics-first.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PILLAR CASE INVESTIGATIONS -->
+<section id="transformations" class="py-32 bg-black">
+  <div class="max-w-7xl mx-auto px-6 md:px-16">
+
+    <div class="mb-20 reveal">
+      <div class="flex items-center gap-4 mb-4">
+        <div class="section-line"></div>
+        <span class="uppercase tracking-[0.22em] text-[0.7rem] text-[var(--gold-primary)]">
+          Pillar Transformations
+        </span>
+      </div>
+      <h2 class="serif text-4xl md:text-5xl lg:text-6xl max-w-4xl leading-tight">
+        High-Impact Account Deployments & <span class="italic gold-gradient">Operational Governance</span>
+      </h2>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-8">
+      <!-- BLOCK 1 -->
+      <div class="case-card glass-card overflow-hidden reveal flex flex-col justify-between">
+        <div>
+          <div class="img-frame-container aspect-[16/10] bg-[#1a1816]">
+            <div class="image-overlay-layer"></div>
+            <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1600&auto=format&fit=crop" class="w-full h-full object-cover">
+          </div>
+          <div class="p-8">
+            <div class="uppercase tracking-[0.18em] text-[0.62rem] text-[var(--gold-primary)] mb-3 font-semibold">
+              Manila • Casino Resort Ecosystem
+            </div>
+            <h3 class="serif text-2xl mb-4 text-white">Enterprise Rollout Stabilization</h3>
+            <p class="text-[var(--text-muted)] leading-7 text-sm">
+              Directed cross-functional integration modeling and technical stabilization lines inside a major casino-resort property launch. Coordinated seamlessly across operational teams, technology vendors, and group executives.
+            </p>
+          </div>
+        </div>
+        <div class="px-8 pb-8">
+          <div class="pt-5 border-t border-white/5 text-[0.7rem] uppercase tracking-[0.15em] text-[var(--text-soft)]">
+            Systems Audit • Live Launch Strategy • Risk Triage
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOCK 2 -->
+      <div class="case-card glass-card overflow-hidden reveal flex flex-col justify-between">
+        <div>
+          <div class="img-frame-container aspect-[16/10] bg-[#1a1816]">
+            <div class="image-overlay-layer"></div>
+            <img src="https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?q=80&w=1600&auto=format&fit=crop" class="w-full h-full object-cover">
+          </div>
+          <div class="p-8">
+            <div class="uppercase tracking-[0.18em] text-[0.62rem] text-[var(--gold-primary)] mb-3 font-semibold">
+              London • Flagship Luxury Accounts
+            </div>
+            <h3 class="serif text-2xl mb-4 text-white">Client Relationship Architecture</h3>
+            <p class="text-[var(--text-muted)] leading-7 text-sm">
+              Orchestrated executive lifecycle reviews, contractual expansion parameters, and technical success pathways across multiple premium European properties managing intricate stakeholder hierarchies.
+            </p>
+          </div>
+        </div>
+        <div class="px-8 pb-8">
+          <div class="pt-5 border-t border-white/5 text-[0.7rem] uppercase tracking-[0.15em] text-[var(--text-soft)]">
+            C-Suite QBR Strategy • Scale Retention • SaaS Metrics
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOCK 3 -->
+      <div class="case-card glass-card overflow-hidden reveal flex flex-col justify-between">
+        <div>
+          <div class="img-frame-container aspect-[16/10] bg-[#1a1816]">
+            <div class="image-overlay-layer"></div>
+            <img src="https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1600&auto=format&fit=crop" class="w-full h-full object-cover">
+          </div>
+          <div class="p-8">
+            <div class="uppercase tracking-[0.18em] text-[0.62rem] text-[var(--gold-primary)] mb-3 font-semibold">
+              APAC • Multi-Property Platform Index
+            </div>
+            <h3 class="serif text-2xl mb-4 text-white">Implementation Acceleration Frameworks</h3>
+            <p class="text-[var(--text-muted)] leading-7 text-sm">
+              Engineered optimized client onboarding pathways and governance pipelines, reducing standard implementation cycles across diversified regional account metrics.
+            </p>
+          </div>
+        </div>
+        <div class="px-8 pb-8">
+          <div class="pt-5 border-t border-white/5 text-[0.7rem] uppercase tracking-[0.15em] text-[var(--text-soft)]">
+            Deployment Speed • Operations Management • Scale
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GEOGRAPHIC FOOTPRINT MAP CONTEXT -->
+<section id="deployments" class="py-32 map-overlay relative overflow-hidden">
+  <div class="absolute inset-0 bg-black/75 z-0"></div>
+  
+  <div class="max-w-7xl mx-auto px-6 md:px-16 relative z-10">
+    <div class="max-w-3xl reveal">
+      <div class="flex items-center gap-4 mb-6">
+        <div class="section-line"></div>
+        <span class="uppercase tracking-[0.22em] text-[0.7rem] text-[var(--gold-primary)]">International Distribution</span>
+      </div>
+      <h2 class="serif text-4xl md:text-6xl leading-tight">
+        On-Site Strategic Presence Across <span class="italic gold-gradient block mt-3">Global Centers</span>
+      </h2>
+      <p class="mt-8 text-base md:text-lg leading-8 text-[var(--text-secondary)]">
+        Direct leadership of global operational integrations, stakeholder relationship mapping, deployment governance systems, property health audits, and cross-functional success structures.
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-16 reveal">
+      <div class="glass p-8 rounded-[24px] border border-white/5">
+        <div class="text-3xl serif text-[var(--gold-primary)] mb-2">United Kingdom</div>
+        <div class="uppercase text-[0.65rem] tracking-[0.18em] text-[var(--text-soft)] mb-4">London Hub</div>
+        <p class="text-xs leading-6 text-[var(--text-muted)]">
+          Executive property mapping, luxury framework alignment, and key commercial account development workflows.
+        </p>
+      </div>
+      <div class="glass p-8 rounded-[24px] border border-white/5">
+        <div class="text-3xl serif text-[var(--gold-primary)] mb-2">United States</div>
+        <div class="uppercase text-[0.65rem] tracking-[0.18em] text-[var(--text-soft)] mb-4">New York • Las Vegas</div>
+        <p class="text-xs leading-6 text-[var(--text-muted)]">
+          High-occupancy onboarding logistics, infrastructure synchronization, and digital platform scale management.
+        </p>
+      </div>
+      <div class="glass p-8 rounded-[24px] border border-white/5">
+        <div class="text-3xl serif text-[var(--gold-primary)] mb-2">APAC Regional</div>
+        <div class="uppercase text-[0.65rem] tracking-[0.18em] text-[var(--text-soft)] mb-4">Singapore • Bangkok • Manila</div>
+        <p class="text-xs leading-6 text-[var(--text-muted)]">
+          Resort footprint governance, custom ecosystem modeling, and deployment stability engineering.
+        </p>
+      </div>
+      <div class="glass p-8 rounded-[24px] border border-white/5">
+        <div class="text-3xl serif text-[var(--gold-primary)] mb-2">South Asia</div>
+        <div class="uppercase text-[0.65rem] tracking-[0.18em] text-[var(--text-soft)] mb-4">Bengaluru • Delhi • Jamnagar</div>
+        <p class="text-xs leading-6 text-[var(--text-muted)]">
+          Ultra-luxury operational architecture, core product integrations, and elite guest success models.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHRONOLOGICAL HISTORY -->
+<section id="experience" class="py-32 bg-[#0a0a0a]">
+  <div class="max-w-5xl mx-auto px-6 md:px-16">
+    
+    <div class="mb-20 reveal">
+      <div class="flex items-center gap-4 mb-4">
+        <div class="section-line"></div>
+        <span class="uppercase tracking-[0.22em] text-[0.7rem] text-[var(--gold-primary)]">Chronology</span>
+      </div>
+      <h2 class="serif text-4xl md:text-5xl">
+        Career Experience & <span class="italic gold-gradient">Global Arc</span>
+      </h2>
+      <p class="text-[var(--text-muted)] text-sm uppercase tracking-[0.15em] mt-3">From Hospitality Operations to Global Customer Transformation</p>
+    </div>
+
+    <div class="space-y-8">
+      
+      <!-- DIGIVALET -->
+      <div class="glass p-8 md:p-10 rounded-[28px] reveal border border-white/5">
+        <div class="grid lg:grid-cols-12 gap-6 items-start">
+          <div class="lg:col-span-4">
+            <div class="text-[var(--gold-primary)] text-xs tracking-[0.2em] uppercase font-semibold mb-2">Apr 2021 — Jul 2025</div>
+            <h3 class="serif text-2xl md:text-3xl text-white">Director of Client Success</h3>
+            <p class="text-[var(--text-soft)] text-xs uppercase tracking-wider mt-1.5">DigiValet Inc. • Global Portfolio</p>
+            <div class="mt-4 space-y-1 text-xs text-[var(--text-muted)] font-mono">
+              <div>GRR: 93–96%</div>
+              <div>NRR: 105–115%</div>
+              <div>Renewal: 95–98%</div>
+            </div>
+          </div>
+          <div class="lg:col-span-8 text-[var(--text-muted)] text-sm md:text-base leading-7 space-y-4">
+            <p>
+              Led customer success, operations, implementation, onboarding, support governance, executive stakeholder engagement, commercial negotiations, and strategic account management for a <span class="text-white">$10M+ ARR</span> enterprise hospitality technology portfolio of 45+ accounts across US, UK, APAC, and MENA markets.
+            </p>
+            <p>
+              Conducted <span class="text-white font-medium">24+ international on-site engagements across 8 countries</span>, managing pre-opening go-lives in the US, C-suite QBRs at Raffles London and W London, full RFP leadership for Dorchester Collection, a multi-stakeholder C-suite presentation to Maybourne Hotel Group, and a UHNI private estate deployment in India. Partnered with ultra-luxury brands including Raffles, Aman, Bulgari, Sofitel, W Hotels, Wynn, Okada, and The Oberoi.
+            </p>
+            <p>
+              Built and led a <span class="text-white">14-person cross-functional customer operations organisation</span> spanning onboarding, support operations, implementation governance, customer success, and training.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- INFOR -->
+      <div class="glass p-8 md:p-10 rounded-[28px] reveal border border-white/5">
+        <div class="grid lg:grid-cols-12 gap-6 items-start">
+          <div class="lg:col-span-4">
+            <div class="text-[var(--gold-primary)] text-xs tracking-[0.2em] uppercase font-semibold mb-2">Jul 2016 — Mar 2021</div>
+            <h3 class="serif text-2xl md:text-3xl text-white">Senior Product Analyst</h3>
+            <p class="text-[var(--text-soft)] text-xs uppercase tracking-wider mt-1.5">Infor India Pvt. Ltd.</p>
+            <div class="mt-4 space-y-1 text-xs text-[var(--text-muted)] font-mono">
+              <div>SLA: 95%+ Adherence</div>
+              <div>FCR: 80% Resolution</div>
+            </div>
+          </div>
+          <div class="lg:col-span-8 text-[var(--text-muted)] text-sm md:text-base leading-7 space-y-4">
+            <p>
+              Operated as a multi-hat professional within Infor's enterprise hospitality SaaS division—spanning customer success, support operations (primary function), quality assurance, business analysis, product analysis, and both internal and external training delivery across a portfolio of 15–25 enterprise accounts. Client engagement was predominantly US-focused (~80%), with the remainder spread across the Far East, KSA, UAE, Qatar, Australia, and New Zealand.
+            </p>
+            <p>
+              Achieved 80% first-contact resolution and maintained 95%+ SLA adherence through structured support governance, escalation management, and cross-functional coordination. Served as a key bridge between enterprise hotel clients and Infor's product and engineering teams, translating real-world operational feedback into structured product requirements.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- THE TAMARA -->
+      <div class="glass p-8 md:p-10 rounded-[28px] reveal border border-white/5">
+        <div class="grid lg:grid-cols-12 gap-6 items-start">
+          <div class="lg:col-span-4">
+            <div class="text-[var(--gold-primary)] text-xs tracking-[0.2em] uppercase font-semibold mb-2">Jun 2015 — Jun 2016</div>
+            <h3 class="serif text-2xl md:text-3xl text-white">Assistant Front Office Manager</h3>
+            <p class="text-[var(--text-soft)] text-xs uppercase tracking-wider mt-1.5">The Tamara Coorg • Boutique Luxury Resort</p>
+          </div>
+          <div class="lg:col-span-8 text-[var(--text-muted)] text-sm md:text-base leading-7 space-y-3">
+            <p>
+              Led a team of 13–16 across all operational functions of a boutique luxury wilderness resort—accommodation, F&B, guest activities, wellness, and support logistics. Managed the complete guest journey from pre-arrival through departure, designing and enforcing operational protocols aligned to The Tamara's ultra-premium nature-retreat positioning.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ITC GARDENIA -->
+      <div class="glass p-8 md:p-10 rounded-[28px] reveal border border-white/5">
+        <div class="grid lg:grid-cols-12 gap-6 items-start">
+          <div class="lg:col-span-4">
+            <div class="text-[var(--gold-primary)] text-xs tracking-[0.2em] uppercase font-semibold mb-2">Aug 2014 — Jun 2015</div>
+            <h3 class="serif text-2xl md:text-3xl text-white">Front Office Executive</h3>
+            <p class="text-[var(--text-soft)] text-xs uppercase tracking-wider mt-1.5">ITC Gardenia • Luxury Hotel, Bengaluru</p>
+          </div>
+          <div class="lg:col-span-8 text-[var(--text-muted)] text-sm md:text-base leading-7 space-y-3">
+            <p>
+              Delivered high-quality guest service across luxury hotel operations consistently aligned to ITC's brand philosophy and Responsible Luxury positioning. Managed day-to-day front-of-house and cross-departmental operational coordination across peak periods and complex scenarios at one of Bengaluru's premier luxury properties.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- THE OBEROI -->
+      <div class="glass p-8 md:p-10 rounded-[28px] reveal border border-white/5">
+        <div class="grid lg:grid-cols-12 gap-6 items-start">
+          <div class="lg:col-span-4">
+            <div class="text-[var(--gold-primary)] text-xs tracking-[0.2em] uppercase font-semibold mb-2">Aug 2010 — Apr 2014</div>
+            <h3 class="serif text-2xl md:text-3xl text-white">Front Office Supervisor</h3>
+            <p class="text-[var(--text-soft)] text-xs uppercase tracking-wider mt-1.5">The Oberoi Bengaluru • Premium Luxury Hotel</p>
+          </div>
+          <div class="lg:col-span-8 text-[var(--text-muted)] text-sm md:text-base leading-7 space-y-3">
+            <p>
+              Began professional career at The Oberoi Bengaluru—one of India's most prestigious ultra-luxury hotel brands. Over nearly four years, developed the foundational service philosophy, operational precision, and stakeholder management instincts that became the defining edge in all subsequent enterprise roles.
+            </p>
+            <p>
+              Led a team of 6–9 across guest-facing operations, achieving 92% guest satisfaction scores through proactive service design, real-time issue resolution, anticipatory guest management, and meticulous team performance coaching.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- THREE COLUMN GALLERY ACCENTS -->
+<section class="py-20 bg-black">
+  <div class="max-w-7xl mx-auto px-6 md:px-16 grid lg:grid-cols-3 gap-8">
+    <div class="editorial-container img-frame-container reveal bg-[#13110f]">
+      <div class="image-overlay-layer"></div>
+      <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=1600&auto=format&fit=crop" class="w-full h-[460px] object-cover">
+    </div>
+    <div class="editorial-container img-frame-container reveal bg-[#13110f]">
+      <div class="image-overlay-layer"></div>
+      <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=1600&auto=format&fit=crop" class="w-full h-[460px] object-cover">
+    </div>
+    <div class="editorial-container img-frame-container reveal bg-[#13110f]">
+      <div class="image-overlay-layer"></div>
+      <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=1600&auto=format&fit=crop" class="w-full h-[460px] object-cover">
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL REVIEWS -->
+<section class="py-32 bg-[#0d0d0d]">
+  <div class="max-w-6xl mx-auto px-6 md:px-16">
+    <div class="text-center mb-20 reveal">
+      <div class="uppercase tracking-[0.22em] text-[0.7rem] text-[var(--gold-primary)] mb-4">
+        Industry Perspectives
+      </div>
+      <h2 class="serif text-4xl md:text-5xl text-white">
+        Validated Strategy Under Performance Pressure
+      </h2>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-8">
+      <div class="glass p-8 rounded-[24px] border-l-2 border-[var(--gold-primary)] reveal">
+        <p class="text-[var(--text-secondary)] leading-7 text-base italic">
+          “Adhish consistently functions as the operational translator between corporate hospitality goals and technical engineering reality.”
+        </p>
+        <div class="mt-6 text-xs uppercase tracking-[0.16em] text-[var(--gold-primary)] font-semibold">
+          Hospitality Executive Context
+        </div>
+      </div>
+      <div class="glass p-8 rounded-[24px] border-l-2 border-[var(--gold-primary)] reveal">
+        <p class="text-[var(--text-secondary)] leading-7 text-base italic">
+          “His agility when mapping complex client needs while absorbing deployment launch pressure is rare inside the industry footprint.”
+        </p>
+        <div class="mt-6 text-xs uppercase tracking-[0.16em] text-[var(--gold-primary)] font-semibold">
+          Enterprise Client Network
+        </div>
+      </div>
+      <div class="glass p-8 rounded-[24px] border-l-2 border-[var(--gold-primary)] reveal">
+        <p class="text-[var(--text-secondary)] leading-7 text-base italic">
+          “He processes luxury operations organically—balancing human expectation, back-end system execution, and revenue growth.”
+        </p>
+        <div class="mt-6 text-xs uppercase tracking-[0.16em] text-[var(--gold-primary)] font-semibold">
+          Senior Operational Leadership
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEADERSHIP ETHOS -->
+<section class="quote-section py-36 text-center px-6 md:px-16 relative overflow-hidden">
+  <div class="max-w-5xl mx-auto reveal relative z-10">
+    <div class="uppercase tracking-[0.22em] text-[0.7rem] text-[var(--gold-primary)] mb-6">
+      Core Vision
+    </div>
+    <h2 class="serif text-4xl md:text-6xl lg:text-7xl leading-tight text-white">
+      “Service Is a <span class="gold-gradient italic">System.</span> Not a Gesture.”
+    </h2>
+    <p class="max-w-3xl mx-auto mt-8 text-base md:text-lg leading-8 text-[var(--text-secondary)]">
+      Elite user transformations aren't sustained by isolated design acts or software patches. They require deep system harmony, clear cross-functional alignment, and proactive architecture that stands up to enterprise scrutiny.
+    </p>
+  </div>
+</section>
+
+<!-- ENGAGEMENT STRATEGY HUB -->
+<section id="contact" class="py-36 bg-black text-center relative overflow-hidden">
+  <div class="absolute inset-0 bg-gradient-to-t from-[#0d0d0d] via-transparent to-transparent"></div>
+  
+  <div class="max-w-4xl mx-auto px-6 md:px-16 reveal relative z-10">
+    <div class="uppercase tracking-[0.22em] text-[0.7rem] text-[var(--gold-primary)] mb-6">
+      Strategic Initiatives
+    </div>
+    <h2 class="serif text-4xl md:text-6xl leading-none text-white">
+      Architecting the Next Era of<br>
+      <span class="gold-gradient italic block mt-3">Enterprise Experience</span>
+    </h2>
+    <p class="max-w-2xl mx-auto mt-8 text-sm md:text-base leading-7 text-[var(--text-secondary)]">
+      Open to executive alignment opportunities, global scaling initiatives, platform transformation consulting, and enterprise customer success operations across international markets.
+    </p>
+
+    <div class="mt-12 text-2xl md:text-3xl serif text-[var(--gold-secondary)] tracking-wide">
+      <a href="mailto:adhishshah@gmail.com" class="hover:underline transition-colors">adhishshah@gmail.com</a>
+    </div>
+
+    <div class="flex flex-wrap justify-center gap-4 mt-12">
+      <a href="mailto:adhishshah@gmail.com" class="btn-gold">
+        Secure Direct Contact
+      </a>
+      <a href="#" class="btn-secondary flex items-center gap-2">
+        <svg class="w-3.5 h-3.5 text-[var(--gold-primary)]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
+        </svg>
+        Resume
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CORE FOOTER LINE -->
+<footer class="py-12 border-t border-white/5 bg-black px-6 md:px-16 flex flex-col sm:flex-row justify-between items-center gap-4 text-[0.68rem] uppercase tracking-[0.2em] text-[var(--text-soft)]">
+  <div>© 2026 Adhish Shah</div>
+  <div class="flex gap-6">
+    <a href="#" class="hover:text-white transition-colors flex items-center gap-1.5">
+      <svg class="w-3 h-3 text-[var(--gold-primary)]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
+      </svg>
+      Resume
+    </a>
+    <a href="mailto:adhishshah@gmail.com" class="hover:text-white transition-colors">Email</a>
+  </div>
+</footer>
+
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+
+  const cursor = document.querySelector('.cursor');
+  const ring = document.querySelector('.cursor-ring');
+
+  if (window.matchMedia('(pointer: fine)').matches) {
+    cursor.style.display = 'block';
+    ring.style.display = 'block';
+
+    window.addEventListener('mousemove', (e) => {
+      gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
+      gsap.to(ring, { x: e.clientX, y: e.clientY, duration: 0.25 });
+    });
+  }
+
+  gsap.utils.toArray('.reveal').forEach((el) => {
+    gsap.fromTo(el, 
+      { opacity: 0, y: 35 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.95,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 88%',
+          toggleActions: 'play none none none'
+        }
+      }
+    );
+  });
+</script>
+
+</body>
+</html>
